@@ -2,8 +2,7 @@
 require "./database.php";
 
 class Club {
-    public string  $name, $ville;
-    protected string $format;
+    public $id, $name, $ville, $createdAt;
     public $db;
 
     public function __construct()
