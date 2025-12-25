@@ -62,3 +62,18 @@ ON team(name)
 
 CREATE INDEX idx_match_id
 on matches(id)
+
+ALTER TABLE sponsor 
+add id int PRIMARY KEY AUTO_INCREMENT
+
+
+CREATE TABLE demande (
+ id int PRIMARY KEY AUTO_INCREMENT,
+    statut ENUM('accepted','denied') NOT null,
+    club_id int NOT null,
+    FOREIGN key (club_id) REFERENCES clubs(id),
+    equipe_id int NOT null,
+    FOREIGN key (equipe_id) REFERENCES team(id),
+    tournoi_id int NOT null,
+    FOREIGN key (tournoi_id) REFERENCES tournoi(id)
+)
