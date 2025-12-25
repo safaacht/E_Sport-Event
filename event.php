@@ -7,18 +7,11 @@ abstract class Event{
     protected int $cashprize;
     protected string $created_at;
 
-    public $db;
+    abstract public function getAllEvents($conn);
 
-    public function __construct()
+
+    public function affichage(): array 
     {
-        $conn=$this->db->getConnection();
-        
-    }
-
-    abstract public function getAllEvents();
-
-        public function affichage(): array 
-        {
         return [
             'id' => $this->id,
             'titre' => $this->titre,
