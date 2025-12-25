@@ -2,30 +2,57 @@
 require "./database.php";
 
 class Club {
-    public $id, $name, $ville, $createdAt;
-    public $db;
+    private  string $name, $ville;
+    private int $id;
 
-    public function __construct()
+    public function __construct($name,$ville)
     {
-        $this->db = new Database("localhost", "gestion_event", "root", "", 3307);
+
+        $this->name=$name;
+        $this->ville=$ville;
     }
 
-    public function getAll()
+    public function getName():string
     {
-        $conn = $this->db->getConnection();
+        return $this->name;      
+    }
+
+    public function setName(string $nom): void {
+        $this->name = $nom;
+    }
+
+    public function getVille():string
+    {
+        return $this->ville;
+    }
+
+    public function setVille(string $ville):void
+    {
+        $this->ville=$ville;
+    }
+
+    public function getAll($conn)
+    {
         $result = mysqli_query($conn, "SELECT * FROM clubs");
         return mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
 
-    public function create()
+    public function create($conn)
     {
-        $conn = $this->db->getConnection();
         mysqli_query($conn, "INSERT INTO clubs(name, ville) VALUES('$this->name', '$this->ville')");
     }
 
-    public function delete()
+    public function delete($conn)
     {
-        $conn = $this->db->getConnection();
-        mysqli_query($conn, "DELETE FROM clubs WHERE $this->id");
+        mysqli_query($conn, "DELETE FROM clubs WHERE id=$this->id");
+    }
+
+    public function update($conn){
+        $stmt=mysqli_prepare($conn,"UPDATE clubs SET name=? ,ville=? ");
+        mysqli_stmt_bind_param($stmt,'ss',$this->name,$this->ville);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+
+
     }
 }
