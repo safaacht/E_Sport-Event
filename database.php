@@ -1,27 +1,21 @@
 <?php
-
 class Database{
-    public $host;
-    public $dbname;
-    public $username;
-    public $password;
-    public $port;
+    private $host="localhost";
+    private $dbname="gestion_event";
+    private $username="root";
+    private $password="";
+    private $port=3307;
 
-    public function __construct($host, $db, $user, $pass, $port = 3306)
+    public $conn;
+
+    public function __construct()
     {
-        $this->host = $host;
-        $this->dbname = $db;
-        $this->username = $user;
-        $this->password = $pass;
-        $this->port = $port;
+       $this->conn= mysqli_connect($this->host, $this->username, $this->password,$this->dbname, $this->port);
     }
 
 
     public function getConnection()
     {
-        return mysqli_connect($this->host, $this->username, $this->password,$this->dbname, $this->port);
+        return $this->conn;
     }
 }
-
-// $db = new Database("localhost", "gestion_event", "root", "", 3307);
-// $conn = $db->getConnection();
