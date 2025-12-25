@@ -1,34 +1,55 @@
 <?php
 require "./database.php";
+require_once 'club.php';
 
-class Equipe {
+class Equipe extends Participant {
     public int $id;
-    public string $name;
-    public string $jeu;
-    public int $clubId;
-    public $db;
+    private string $name;
+    private string $jeu;
+    private int $clubId;
 
-    public function __construct()
+    public function __construct($name,$jeu,$clubId,$id=null)
     {
-        $this->db = new Database("localhost", "gestion_event", "root", "", 3307);
+
+        $this->name=$name;
+        $this->jeu=$jeu;
+        $this->clubId=$clubId;
     }
 
-    public function getAll()
+    public function getName(): string {
+        return $this->name;
+    }
+
+    public function getJeu(): string {
+        return $this->jeu;
+    }
+
+    public function getClub()
     {
-        $conn = $this->db->getConnection();
+        return $this->clubId;
+    }
+   
+    public function getAll($conn)
+    {
         $result = mysqli_query($conn, "SELECT * FROM equipes");
         return mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
 
-    public function create()
+    public function create($conn)
     {
-        $conn = $this->db->getConnection();
         mysqli_query($conn, "INSERT INTO equipes(name,jeu, clubId) VALUES('$this->name','$this->jeu', '$this->clubId')");
     }
 
-    public function delete()
+    public function delete($conn)
     {
-        $conn = $this->db->getConnection();
-        mysqli_query($conn, "DELETE FROM equipes WHERE $this->id");
+        mysqli_query($conn, "DELETE FROM equipes WHERE id=$this->id");
+    }
+
+    public function update($conn)
+    {
+        $stmt=mysqli_prepare($conn,"UPDATE team SET id=? , name=?, jeu=? clubId=? WHERE id=?");
+        mysqli_stmt_bind_param($stmt,'issi', $this->id ,$this->name,$this->jeu ,$this->clubId, $this->id);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
     }
 }
