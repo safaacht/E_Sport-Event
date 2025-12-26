@@ -7,7 +7,7 @@ class Sponsor{
     private int $tournoi_id;
     private int $id;
 
-     public function __construct($name,$ctrb_financiere	,$tournoi_id,$id=null)
+     public function __construct($name=null,$ctrb_financiere=null,$tournoi_id=null,$id=null)
     {
         $this->name=$name;
         $this->ctrb_financiere=$ctrb_financiere;

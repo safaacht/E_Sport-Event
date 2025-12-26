@@ -1,5 +1,5 @@
 <?php
-
+require_once 'database.php';
 class Joueur extends Participant{
     private int $id;
     private string $pseudo;
@@ -9,7 +9,7 @@ class Joueur extends Participant{
 
 
 
-    public function __construct($pseudo,$role,$salaire,$team_id,$id=null)
+    public function __construct($pseudo=null,$role=null,$salaire=null,$team_id=null,$id=null)
     {
         $this->pseudo=$pseudo;
         $this->role=$role;

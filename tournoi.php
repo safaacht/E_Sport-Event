@@ -1,10 +1,11 @@
 <?php
 require_once 'event.php';
+require_once 'database.php';
 
 class Tournament extends Event {
     private string $format;
 
-    public function __construct($titre,$cashprize,$format,$created_at=null,$id=null)
+    public function __construct($titre=null,$cashprize=null,$format=null,$created_at=null,$id=null)
     {
         $this->titre=$titre;
         $this->cashprize=$cashprize;

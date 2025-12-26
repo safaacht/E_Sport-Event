@@ -1,6 +1,7 @@
 <?php
-require "./database.php";
+require_once "./database.php";
 require_once 'club.php';
+require_once 'participant.php';
 
 class Equipe extends Participant {
     public int $id;
@@ -8,7 +9,7 @@ class Equipe extends Participant {
     private string $jeu;
     private int $clubId;
 
-    public function __construct($name,$jeu,$clubId,$id=null)
+    public function __construct($name=null,$jeu=null,$clubId=null,$id=null)
     {
 
         $this->name=$name;

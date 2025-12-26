@@ -1,11 +1,11 @@
 <?php
-require "./database.php";
+require_once "./database.php";
 
 class Club {
     private  string $name, $ville;
     private int $id;
 
-    public function __construct($name,$ville)
+    public function __construct($name=null,$ville=null)
     {
 
         $this->name=$name;
