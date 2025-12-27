@@ -14,6 +14,16 @@ class Sponsor{
         $this->tournoi_id=$tournoi_id;
         $this->id=$id;
     }
+
+    public function setId($id):void
+    {
+        $this->id=$id;
+    }
+
+    public function getId($conn)
+    {
+        return $this->id;
+    }
     public function setName($name):void
     {
         $this->name=$name;

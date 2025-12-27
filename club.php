@@ -2,8 +2,9 @@
 require_once "./database.php";
 
 class Club {
-    private  string $name, $ville;
-    private int $id;
+    private  ?string $name;
+    private ?string $ville;
+    private ?int $id;
 
     public function __construct($name=null,$ville=null)
     {
@@ -12,7 +13,7 @@ class Club {
         $this->ville=$ville;
     }
 
-    public function getName():string
+    public function getName(): ?string
     {
         return $this->name;      
     }
@@ -21,7 +22,7 @@ class Club {
         $this->name = $nom;
     }
 
-    public function getVille():string
+    public function getVille(): ?string
     {
         return $this->ville;
     }
@@ -29,6 +30,16 @@ class Club {
     public function setVille(string $ville):void
     {
         $this->ville=$ville;
+    }
+
+    public function getId(): ?int 
+    {
+         return $this->id; 
+    }
+
+    public function setId(int $id):void{
+
+        $this->id=$id;
     }
 
     public function getAll($conn)
@@ -48,9 +59,10 @@ class Club {
     }
 
     public function update($conn){
-        $stmt=mysqli_prepare($conn,"UPDATE clubs SET name=? ,ville=? ");
-        mysqli_stmt_bind_param($stmt,'ss',$this->name,$this->ville);
+        $stmt=mysqli_prepare($conn,"UPDATE clubs SET name=? ,ville=? WHERE id=?");
+        mysqli_stmt_bind_param($stmt,'ssi',$this->name,$this->ville,$this->id);
         mysqli_stmt_execute($stmt);
+        echo "Lignes modifiées : " . mysqli_stmt_affected_rows($stmt);
         mysqli_stmt_close($stmt);
 
 

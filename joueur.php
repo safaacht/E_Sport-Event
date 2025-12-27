@@ -49,6 +49,30 @@ class Joueur extends Participant{
         return $this->salaire;
     }
 
+    public function getTeamId():?int
+    {
+        return $this->team_id;
+    }
+
+    public function setTeamId($team_id):void
+    {
+        $this->team_id=$team_id;
+    }
+
+    public function setId($id):void
+    {
+        $this->id=$id;
+    }
+
+    public function getId($id):?int
+    {
+        return $this->id;
+    }
+    public function getAll($conn){
+        $result = mysqli_query($conn, "SELECT * FROM joueur");
+        return mysqli_fetch_all($result, MYSQLI_ASSOC);
+        
+    }
     public function creat($conn)
     {
         $sql="INSERT INTO joueur VALUES(?,?,?,?)";
@@ -67,6 +91,7 @@ class Joueur extends Participant{
         $stmt=mysqli_prepare($conn,"UPDATE joueur SET pseudo=?, role=?, salaire=?, team_id=? WHERE id=?");
         mysqli_stmt_bind_param($stmt,'ssiii', $this->pseudo,$this->role ,$this->salaire, $this->team_id,$this->id);
         mysqli_stmt_execute($stmt);
+        echo "Lignes modifiées : " . mysqli_stmt_affected_rows($stmt);
         mysqli_stmt_close($stmt);
     }
 }
