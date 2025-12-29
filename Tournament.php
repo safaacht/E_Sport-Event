@@ -28,24 +28,24 @@ class Tournament extends Event {
         'format' => $this->format
         ];
     }
-    public function getAllEvents($conn) {
+    public function getAllEvents($conn):array {
 
-        $sql = "SELECT * FROM events";
+        $sql = "SELECT * FROM tournoi";
         $result = mysqli_query($conn, $sql);
 
         return mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
 
-    public function affichage(): array
+    public function affichage($conn): array
     {
-        return array_merge($this->getMoreData(), parent::affichage());
+        return array_merge($this->getMoreData(), parent::affichage($conn));
     }
 
     public function create($conn)
     {
-        $sql="INSERT INTO team VALUES(?,?,?)";
+        $sql="INSERT INTO tournoi(titre, cashprize, format) VALUES(?,?,?)";
         $stmt=mysqli_prepare($conn,$sql);
-        mysqli_stmt_bind_param($stmt,"sis",$this->titre,$this->cashprize,$this->format);
+        mysqli_stmt_bind_param($stmt,"sds",$this->titre,$this->cashprize,$this->format);
         mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
     }
@@ -58,7 +58,7 @@ class Tournament extends Event {
     public function update($conn)
     {
         $stmt=mysqli_prepare($conn,"UPDATE tournoi SET titre=?, cashprize=? , format=? WHERE id=?");
-        mysqli_stmt_bind_param($stmt,'sii', $this->titre,$this->cashprize ,$this->format, $this->id);
+        mysqli_stmt_bind_param($stmt,'sdii', $this->titre,$this->cashprize ,$this->format, $this->id);
         mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
 
