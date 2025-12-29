@@ -77,3 +77,18 @@ CREATE TABLE demande (
     tournoi_id int NOT null,
     FOREIGN key (tournoi_id) REFERENCES tournoi(id)
 )
+
+ALTER TABLE tournoi
+MODIFY format INT NOT NULL;
+
+
+-- jointure
+SELECT c.name, COUNT(t.id) as cpt
+from clubs c ,team t
+WHERE t.club_id=c.id
+GROUP by c.name;
+
+
+SELECT t.name,t.id,m.score_A,m.score_B,m.gagnant_id
+FROM team t
+JOIN matches m ON m.idteam_A=t.id OR m.idteam_B=t.id;
