@@ -73,7 +73,7 @@ while (true) {
 
                     switch ($crud) {
                         case 1: // CREATE
-                            $sponsor->setName($console->input("Nom du club")) ;
+                            $sponsor->setName($console->input("Nom du sponsor")) ;
                             $sponsor->setContribution ($console->input("Contribution financière")) ;
                             $sponsor->setTournoiId ((int)$console->input("Tournoi id ")) ;
                             $sponsor->create($cnx);
@@ -95,7 +95,7 @@ while (true) {
                             break;
 
                         case 4: // DELETE
-                            $sponsor->setId($console->input("ID Club")) ;
+                            $sponsor->setId($console->input("ID Sponsor")) ;
                             $sponsor->delete($cnx);
                             break;
                     }
@@ -122,12 +122,17 @@ while (true) {
                             
 
                         case 2: // READ
-                            foreach ($tournament->affichage($cnx) as $row) {
-                                echo "{$row['titre']} - {$row['cashprize']} - {$row['format']} - {$row['tournoi_date']}\n";
+                            foreach ($tournament->getAllEvents($cnx) as $t) {
+                                echo "ID: {$t['id']} | ";
+                                echo "Titre: {$t['titre']} | ";
+                                echo "Cashprize: {$t['cashprize']} | ";
+                                echo "Format: {$t['format']} | ";
+                                echo "Date: {$t['tounoi_date']}\n";
                             }
                             break;
 
                         case 3: // UPDATE
+                            $tournament->setId($console->input("ID Tournoi")) ;
                             $tournament->setTitre($console->input("Nouveau titre du tournoi")) ;
                             $tournament->setCashprize ($console->input("Nouveau cashprize")) ;
                             $tournament->setFormat ($console->input("Nouvelle format")) ;
@@ -136,7 +141,7 @@ while (true) {
                             break;
 
                         case 4: // DELETE
-                            $tournament->setId($console->input("ID Club")) ;
+                            $tournament->setId($console->input("ID Tournoi")) ;
                             $tournament->delete($cnx);
                             break;
                     }
@@ -145,41 +150,35 @@ while (true) {
             }
 
              /* ===== MATCHE ===== */
-            // if ($choixOrg == 3) {
-            //     do {
-            //         menuCRUD("Matches");
-            //         $crud = $console->input("Votre choix");
+            if ($choixOrg == 3) {
+                do {
+                    menuCRUD("Matches");
+                    $crud = $console->input("Votre choix");
 
-            //         // $matches = new Matches();
+                    $matches = new Matches();
 
-            //         switch ($crud) {
-            //             case 1: // CREATE
-            //                 $club->setName($console->input("Nom du club")) ;
-            //                 $club->setVille ($console->input("Ville")) ;
-            //                 $club->create($cnx);
-            //                 break; 
+                    switch ($crud) {
+                        case 1: // CREATE
+                            $club->setName($console->input("Nom du club")) ;
+                            $club->setVille ($console->input("Ville")) ;
+                            $club->create($cnx);
+                            break; 
 
-            //             case 2: // READ
-            //                 foreach ($club->getAll($cnx) as $row) {
-            //                     echo "{$row['name']} - {$row['ville']}\n";
-            //                 }
-            //                 break;
+                        case 2: // READ
+                            foreach ($club->getAll($cnx) as $row) {
+                                echo "{$row['name']} - {$row['ville']}\n";
+                            }
+                            break;
 
-            //             case 3: // UPDATE
-            //                 $club->setId((int)$console->input("ID Club"));
-            //                 $club->setName($console->input("Nouveau nom"));
-            //                 $club->setVille($console->input("Nouvelle ville"));
-            //                 $club->update($cnx);
-            //                 break;
 
-            //             case 4: // DELETE
-            //                 $matches->setId($console->input("ID Club")) ;
-            //                 $matches->delete($cnx);
-            //                 break;
-            //         }
+                        case 4: // DELETE
+                            $matches->setId($console->input("ID Match")) ;
+                            $matches->delete($cnx);
+                            break;
+                    }
 
-            //     } while ($crud != 0);
-            // }
+                } while ($crud != 0);
+            }
 
 
             /* ===== LISTE CLUBS (READ) ===== */
