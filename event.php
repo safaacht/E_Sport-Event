@@ -4,7 +4,7 @@ require_once './database.php';
 abstract class Event{
     protected ?int $id;
     protected ?string $titre;
-    protected ?int $cashprize;
+    protected ?float $cashprize;
     protected ?string $tounoi_date;
 
     abstract public function getAllEvents($conn);
@@ -31,7 +31,7 @@ abstract class Event{
         $this->cashprize=$cashprize;
     }
     
-    public function getCashprize($conn):?int
+    public function getCashprize($conn):?float
     {
         return $this->cashprize;
     }
@@ -45,7 +45,7 @@ abstract class Event{
         return $this->tounoi_date;
     }
 
-    public function affichage(): array 
+    public function affichage($conn): array 
     {
         return [
             'id' => $this->id,
