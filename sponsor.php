@@ -2,15 +2,15 @@
 require_once './database.php';
 
 class Sponsor{
-    private string $name;
-    private float $ctrb_financiere;
-    private int $tournoi_id;
-    private int $id;
+    private ?string $name;
+    private ?float $contribution_finan;
+    private ?int $tournoi_id;
+    private ?int $id;
 
-     public function __construct($name=null,$ctrb_financiere=null,$tournoi_id=null,$id=null)
+     public function __construct($name=null,$contribution_finan=null,$tournoi_id=null,$id=null)
     {
         $this->name=$name;
-        $this->ctrb_financiere=$ctrb_financiere;
+        $this->contribution_finan=$contribution_finan;
         $this->tournoi_id=$tournoi_id;
         $this->id=$id;
     }
@@ -20,7 +20,7 @@ class Sponsor{
         $this->id=$id;
     }
 
-    public function getId($conn)
+    public function getId():?int
     {
         return $this->id;
     }
@@ -29,27 +29,27 @@ class Sponsor{
         $this->name=$name;
     }
 
-    public function getName():string
+    public function getName():?string
     {
         return $this->name;
     }
 
-    public function getContribution():float
+    public function getContribution():?float
     {
-        return $this->ctrb_financiere;
+        return $this->contribution_finan;
         
     }
 
-    public function setContribution($ctrb_financiere):void
+    public function setContribution($contribution_finan):void
     {
-        $this->ctrb_financiere=$ctrb_financiere;
+        $this->contribution_finan=$contribution_finan;
     }
 
     public function setTournoiId( $tournoi_id):void
     {
         $this->tournoi_id=$tournoi_id;
     }
-    public function getTournoiId():int
+    public function getTournoiId():?int
     {
         return $this->tournoi_id;
     }
@@ -59,9 +59,9 @@ class Sponsor{
     }
 
     public function create($conn){
-        $sql="INSERT INTO sponsor VALUES(?,?,?)";
+        $sql="INSERT INTO sponsor (name, contribution_finan, tournoi_id) VALUES(?,?,?)";
         $stmt=mysqli_prepare($conn,$sql);
-        mysqli_stmt_bind_param($stmt,"sii",$this->name,$this->ctrb_financiere,$this->tournoi_id);
+        mysqli_stmt_bind_param($stmt,"sdi",$this->name,$this->contribution_finan,$this->tournoi_id);
         mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
     }
@@ -69,13 +69,13 @@ class Sponsor{
     public function delete($conn)
     {
 
-        $sql="DELETE ON sponsor WHERE id=$this->id";
+        $sql="DELETE FROM sponsor WHERE id=$this->id";
         mysqli_query($conn,$sql);
     }
     public function update($conn)
     {
-        $stmt=mysqli_prepare($conn,"UPDATE sponsor SET name=?, contribution_finan=? tournoi_id=? WHERE id=?");
-        mysqli_stmt_bind_param($stmt,'ssi', $this->name,$this->ctrb_financiere ,$this->tournoi_id, $this->id);
+        $stmt=mysqli_prepare($conn,"UPDATE sponsor SET name=?, contribution_finan=? , tournoi_id=? WHERE id=?");
+        mysqli_stmt_bind_param($stmt,'sdii', $this->name,$this->contribution_finan ,$this->tournoi_id, $this->id);
         mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
 
