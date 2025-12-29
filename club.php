@@ -45,7 +45,17 @@ class Club {
     public function getAll($conn)
     {
         $result = mysqli_query($conn, "SELECT * FROM clubs");
-        return mysqli_fetch_all($result, MYSQLI_ASSOC);
+        $clubs=mysqli_fetch_all($result,MYSQLI_ASSOC);
+
+        // Get total number of clubs
+        $countResult = mysqli_query($conn, "SELECT COUNT(*) AS total FROM clubs");
+        $countRow = mysqli_fetch_assoc($countResult);
+        $total = $countRow['total'];
+     
+        return [
+        'total_clubs' => $total,
+        'clubs' => $clubs
+        ];
     }
 
     public function create($conn)
@@ -66,5 +76,17 @@ class Club {
         mysqli_stmt_close($stmt);
 
 
+    }
+
+    public function creeDemande($conn,$tournoi)
+    {
+        $sql="SELECT id,name
+        FROM team 
+        WHERE club_id=$this->id ";
+
+        $rslt=mysqli_query($conn,$sql);
+        $clubTeams=mysqli_fetch_all($rslt,MYSQLI_ASSOC);
+
+        var_dump($clubTeams);   
     }
 }
