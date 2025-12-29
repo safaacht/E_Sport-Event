@@ -1,4 +1,4 @@
 <?php
 interface Archivable{
-    public function stockageResult();
+    public function stockageResult($conn);
 }
